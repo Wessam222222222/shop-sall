@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register Form</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-container form input[type="text"],
+    .form-container form input[type="password"],
+    .form-container form input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .form-container form input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .form-container form input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .form-container .switch {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .form-container .switch a {
+        color: #007bff;
+        text-decoration: none;
+    }
+</style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Login</h2>
+    <form id="loginForm" action="#">
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="loginUsername">
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword">
+        <input type="submit" value="Login">
+    </form>
+    <div class="switch">
+        <a href="#" onclick="showRegisterForm()">Create an account</a>
+    </div>
+</div>
+
+<div class="form-container" style="display:none;" id="registerContainer">
+    <h2>Register</h2>
+    <form id="registerForm" action="#">
+        <label for="registerUsername">Username:</label>
+        <input type="text" id="registerUsername" name="registerUsername">
+        <label for="registerPassword">Password:</label>
+        <input type="password" id="registerPassword" name="registerPassword">
+        <label for="registerEmail">Email:</label>
+        <input type="email" id="registerEmail" name="registerEmail">
+        <input type="submit" value="Register">
+    </form>
+    <div class="switch">
+        <a href="#" onclick="showLoginForm()">Back to login</a>
+    </div>
+</div>
+
+<script>
+    function showRegisterForm() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerContainer").style.display = "block";
+    }
+
+    function showLoginForm() {
+        document.getElementById("registerContainer").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
+    }
+
+     </body>
+     </html>
