@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>لوحة التحكم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
+        }
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header ul li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        .main {
+            padding: 20px;
+            background: #ffffff;
+            margin-top: 10px;
+        }
+        .main h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #dddddd;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #35424a;
+            color: white;
+        }
+        .logout-btn {
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #e8491d;
+            color: #ffffff;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">لوحة التحكم</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">الرئيسية</a></li>
+                    <li><a href="users.html">المستخدمين</a></li>
+                    <li><a href="ads.html">الإعلانات</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main">
+        <h1>المستخدمين الجدد</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم المستخدم</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>كلمة السر</th>
+                    <th>الإعلانات المنشورة</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                <!-- سيتم ملء هذا الجدول باستخدام جافاسكريبت -->
+            </tbody>
+        </table>
+        
+        <a href="#" id="logout-btn" class="logout-btn">تسجيل الخروج</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const tableBody = document.getElementById('users-table-body');
+
+            if (users.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4" style="text-align: center;">لا يوجد مستخدمين مسجلين</td>`;
+                tableBody.appendChild(row);
+            } else {
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.password}</td>
+                        <td>${user.ads.length}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            const logoutBtn = document.getElementById('logout-btn');
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html'; // توجيه المستخدم لصفحة تسجيل الدخول بعد تسجيل الخروج
+            });
+        });
+    </script>
+</body>
+</html>

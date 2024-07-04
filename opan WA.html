@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فتح واتساب</title>
+    <!-- تحميل مكتبة intl-tel-input من CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .container h2 {
+            color: #25D366;
+            margin-bottom: 20px;
+        }
+        input[type="tel"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1ebe57;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>افتح واتساب</h2>
+        <input type="tel" id="phoneNumber" placeholder="أدخل رقم الهاتف">
+        <button onclick="openWhatsApp()">افتح واتساب</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+    <script>
+        const phoneInputField = document.getElementById('phoneNumber');
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                fetch('https://ipinfo.io?token=02e2cdc6d96597') // استبدل التوكن بالقيمة الخاصة بك
+                    .then(response => response.json())
+                    .then(data => callback(data.country))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+            allowDropdown: true,
+            autoHideDialCode: true,
+            autoPlaceholder: "polite",
+            dropdownContainer: document.body,
+            excludeCountries: [],
+            formatOnDisplay: true,
+            hiddenInput: "",
+            localizedCountries: { 'de': 'Deutschland' },
+            nationalMode: false,
+            onlyCountries: [],
+            placeholderNumberType: "MOBILE",
+            preferredCountries: ["us", "gb"],
+            separateDialCode: false,
+        });
+
+        function openWhatsApp() {
+            const phoneNumber = phoneInput.getNumber();
+            const whatsappURL = `https://wa.me/${phoneNumber}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+</body>
+</html>

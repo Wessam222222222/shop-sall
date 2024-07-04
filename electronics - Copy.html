@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الإلكترونيات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+        }
+        h1 {
+            margin: 0;
+        }
+        #adsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .product {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .product:hover {
+            transform: translateY(-5px);
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .product p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .product a {
+            text-decoration: none;
+            color: #333;
+        }
+        .publish-time {
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>صفحة الإلكترونيات</h1>
+    </header>
+    <div id="adsContainer">
+        <!-- سيتم عرض الإعلانات هنا -->
+    </div>
+
+    <script>
+        function displayPublishedAds() {
+            var adsContainer = document.getElementById("adsContainer");
+            adsContainer.innerHTML = ""; // مسح الإعلانات السابقة
+
+            // حلقة لتفحص الإعلانات المخزنة في localStorage
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                if (key.startsWith("electronic_")) {
+                    var adData = JSON.parse(localStorage.getItem(key));
+                    var adElement = document.createElement("div");
+                    adElement.classList.add("product");
+                    adElement.innerHTML = `
+                        <a href="ad-details.html?id=${key}">
+                            <img src="${adData.productImage}" alt="${adData.productName}">
+                            <p>${adData.productName}</p>
+                            <p>السعر: ${adData.productPrice}</p>
+                            <p>رقم الاتصال: ${adData.contactNumber}</p>
+                            <p class="publish-time">وقت النشر: ${adData.publishTime}</p>
+                        </a>
+                    `;
+                    adsContainer.appendChild(adElement);
+                }
+            }
+        }
+
+        window.onload = function() {
+            displayPublishedAds();
+        };
+    </script>
+</body>
+</html>

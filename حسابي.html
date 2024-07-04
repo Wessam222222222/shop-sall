@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابي</title>
+    <style>
+        /* أسلوب التنسيق هنا */
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        /* تنسيق الشعار */
+        .logo {
+            margin-bottom: 20px; /* تحديد هامش للأسفل للتباعد بين الشعار والعناصر الأخرى */
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            width: 300px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info p {
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .user-info label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .logout-button {
+            margin-top: 20px;
+        }
+
+        .logout-button button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px; /* تحديد هامش الزر لليمين */
+        }
+
+        .logout-button button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="img/Colorful Mascot Illustrative Online Shop Logo.png" width="100" height="100" alt="وصف الصورة">
+    </div>
+
+    <h1>معلومات الحساب</h1>
+    <div class="user-info">
+        <p><label>البريد الإلكتروني:</label> <span id="userEmail"></span></p>
+        <p><label>الاسم الكامل:</label> <span id="userFullName"></span></p>
+        <p><label>اسم المستخدم:</label> <span id="userUsername"></span></p>
+        <p><label>الدولة:</label> <img id="countryFlag" width="50" height="50" alt="علم الدولة"> <span id="userCountry"></span></p>
+        <p><label>رقم الهاتف:</label> <span id="userPhone"></span></p>
+    </div>
+
+    <div class="logout-button">
+        <button onclick="logout()">تسجيل الخروج</button>
+        <button onclick="openHomePage()">فتح الرئيسية</button>
+    </div>
+
+    <script>
+        // استرداد البيانات المخزنة في localStorage وعرضها في الصفحة
+        document.getElementById('userEmail').innerText = localStorage.getItem('email');
+        document.getElementById('userFullName').innerText = localStorage.getItem('fullname');
+        document.getElementById('userUsername').innerText = localStorage.getItem('username');
+        document.getElementById('userCountry').innerText = localStorage.getItem('country');
+        document.getElementById('userPhone').innerText = localStorage.getItem('phone');
+
+        // دالة لتسجيل الخروج
+        function logout() {
+            // مسح البيانات المخزنة في localStorage
+            localStorage.removeItem('email');
+            localStorage.removeItem('fullname');
+            localStorage.removeItem('username');
+            localStorage.removeItem('country');
+            localStorage.removeItem('phone');
+
+            // توجيه المستخدم إلى صفحة تسجيل الدخول
+            window.location.href = 'login.html';
+        }
+
+        // دالة لفتح الصفحة الرئيسية في نافذة جديدة
+        function openHomePage() {
+            window.open('الرئيسية.html', '_blank');
+        }
+
+        // مصفوفة تحتوي على روابط علم الدولة
+        const countryFlags = {
+            OM: 'https://s3.eu-west-2.amazonaws.com/qmasters/flags/png/oman/flag-round-250.png',
+            SA: 'https://s3.eu-west-2.amazonaws.com/qmasters/flags/png/saudi-arabia/flag-round-250.png',
+            YE: 'https://s3.eu-west-2.amazonaws.com/qmasters/flags/png/yemen/flag-3d-round-250.png'
+        };
+
+        // عرض علم الدولة بناءً على القيمة المخزنة في localStorage
+        const userCountryCode = localStorage.getItem('country');
+        document.getElementById('countryFlag').src = countryFlags[userCountryCode];
+    </script>
+</body>
+</html>

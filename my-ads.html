@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الإعلانات الخاصة بي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+            margin-top: 30px;
+        }
+        .product {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* لاحتواء العنصر الجديد داخله */
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .product p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .product .expiration {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .product button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            margin-top: 10px;
+        }
+        .product button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h1>اعلاناتي</h1>
+    <div id="myAdsContainer">
+        <!-- هنا سيتم عرض الإعلانات -->
+    </div>
+
+    <script>
+        // استرجاع وعرض الإعلانات المنشورة
+        function displayMyAds() {
+            var myAdsContainer = document.getElementById("myAdsContainer");
+            myAdsContainer.innerHTML = ""; // حذف العناصر القديمة
+
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                if (key.startsWith("product_")) { // التأكد من أن المفتاح يبدأ بـ "product_"
+                    var productData = JSON.parse(localStorage.getItem(key)); // استرجاع بيانات المنتج وتحويلها إلى كائن
+                    var productElement = document.createElement("div");
+                    productElement.classList.add("product");
+                    productElement.id = key; // تعيين معرف فريد لكل إعلان
+
+                    // حساب وعرض عدد الأيام المتبقية
+                    var daysRemaining = calculateDaysRemaining(productData.expiryDate);
+                    var expirationText = "المتبقي " + daysRemaining + " يوم";
+                    productElement.innerHTML = `
+                        <img src="${getProductImageUrl(productData.images)}" alt="${productData.productName}">
+                        <p>${productData.productName}</p>
+                        <p>السعر: ${productData.productPrice} ريال عماني</p>
+                        <p>رقم الهاتف: ${productData.contactNumber}</p>
+                        <p class="expiration">${expirationText}</p>
+                        <button onclick="deleteAd('${key}')">حذف</button> <!-- زر الحذف -->
+                        <button id="editButton" onclick="editAd('${key}')">تعديل</button> <!-- زر التعديل -->
+                    `;
+                    myAdsContainer.appendChild(productElement);
+                }
+            }
+        }
+
+        // دالة لحساب عدد الأيام المتبقية
+        function calculateDaysRemaining(expiryDate) {
+            var today = new Date();
+            var expiration = new Date(expiryDate);
+            var timeDiff = expiration.getTime() - today.getTime();
+            var daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24)); // تحويل الميلي ثانية إلى يوم
+            return daysRemaining;
+        }
+
+        // دالة للحصول على عنوان URL للصورة
+        function getProductImageUrl(images) {
+            // يمكنك تعديل هذه الدالة حسب كيفية تخزين الصور في localStorage أو الخادم
+            // هنا يفترض أن images هو مصفوفة لعناوين الصور
+            if (images && images.length > 0) {
+                return images[0]; // يرجع الصورة الأولى كمثال
+            }
+            return ""; // إذا لم تكن هناك صور متاحة
+        }
+
+        // دالة للانتقال إلى صفحة تعديل المنتج
+        function editAd(key) {
+            window.location.href = "edit-product.html?id=" + key;
+        }
+
+        // دالة لحذف إعلان
+        function deleteAd(key) {
+            localStorage.removeItem(key); // حذف الإعلان من localStorage
+            displayMyAds(); // إعادة عرض الإعلانات بعد الحذف
+        }
+
+        // استدعاء الدالة عند تحميل الصفحة
+        window.onload = function() {
+            displayMyAds();
+        };
+    </script>
+</body>
+</html>

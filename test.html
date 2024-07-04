@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Card</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            direction: rtl; /* Make text direction right-to-left */
+        }
+        .card {
+            background-color: #000;
+            color: #fff;
+            width: 320px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card .slider {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        .card .slider img {
+            width: 100%;
+            height: 200px;
+            display: none;
+        }
+        .card .slider img.active {
+            display: block;
+        }
+        .card .slider .prev, .card .slider .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .card .slider .prev {
+            left: 10px;
+        }
+        .card .slider .next {
+            right: 10px;
+        }
+        .card .price {
+            font-size: 24px;
+            margin: 10px;
+        }
+        .card .description {
+            margin: 10px;
+            font-size: 16px;
+        }
+        .card .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+        .card .buttons button {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .card .buttons button.call {
+            background-color: #007bff;
+        }
+        .card .buttons button.chat {
+            background-color: #007bff;
+        }
+        .card .buttons button.share {
+            background-color: #007bff;
+        }
+        .card .buttons button.save {
+            background-color: #dc3545;
+        }
+        .card .footer {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .card .location {
+            margin: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="slider">
+            <img src="c:\Users\Maryam DES\Downloads\bmw-m4-parked-on-a-wet-road-at-night_2.jpg" alt="Product Image 1" class="active">
+            <img src="c:\Users\Maryam DES\Downloads\4k-bmw-m3-gt2-j59uatupzjprvy0t.jpg" alt="Product Image 2">
+            <img src="c:\Users\Maryam DES\Downloads\bmw-m4-liberty.jpg" alt="Product Image 3">
+            <img src="c:\Users\Maryam DES\Downloads\download (11).jpeg" alt="Product Image 4">
+            <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="next" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+        <div class="price">18 ريال</div>
+        <div class="description">كمبرسر تعبئه هواء الإطارات</div>
+        <div class="buttons">
+            <button class="call" onclick="callFunction()">932996XX</button>
+            <button class="chat" onclick="chatFunction()">دردشة</button>
+            <button class="share" onclick="shareFunction()">شارك الإعلان</button>
+            <button class="save" onclick="saveFunction()">احفظ الإعلان</button>
+        </div>
+        <div class="location">الباطنة , صحار</div>
+        <div class="footer">المعلومات</div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider img');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function callFunction() {
+            alert('Calling: 932996XX');
+        }
+
+        function chatFunction() {
+            alert('Opening chat...');
+        }
+
+        function shareFunction() {
+            alert('Sharing the ad...');
+        }
+
+        function saveFunction() {
+            alert('Ad saved.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نافذة الدردشة المخصصة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+        }
+
+        .chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .chat-popup {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            background-color: white;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background-color: #075E54;
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-footer input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .chat-footer button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .message.user {
+            background-color: #e1ffc7;
+            text-align: left;
+        }
+
+        .message.agent {
+            background-color: #f1f1f1;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <button class="chat-btn" onclick="openChat()">💬</button>
+
+    <div class="chat-popup" id="chatPopup">
+        <div class="chat-header">
+            <h2>دردشة مباشرة</h2>
+            <button class="close-btn" onclick="closeChat()">×</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="chat-footer">
+            <input id="chatMessage" type="text" placeholder="اكتب رسالة...">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+    </div>
+
+    <script>
+        function openChat() {
+            document.getElementById('chatPopup').style.display = 'block';
+        }
+
+        function closeChat() {
+            document.getElementById('chatPopup').style.display = 'none';
+        }
+
+        function sendMessage() {
+            var message = document.getElementById('chatMessage').value;
+            if (message.trim() !== "") {
+                addMessage(message, 'user');
+                document.getElementById('chatMessage').value = "";
+
+                // Replace "YOUR_TOKEN_HERE" with your actual token
+                const token = "YOUR_TOKEN_HERE";
+
+                fetch("79c0f8e73f96af6c11469e04f47c95b9a3c1e4bb", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "message": message
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to send message");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    addMessage(data.message, 'agent');
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        }
+
+        function addMessage(message, sender) {
+            var chatBody = document.getElementById('chatBody');
+            var messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            messageElement.className = 'message ' + sender;
+            chatBody.appendChild(messageElement);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    </script>
+</body>
+</html>
