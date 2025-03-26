@@ -1,0 +1,46 @@
+/* Base64 encoded placeholder image */
+.placeholder-img {
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+}
+
+/* Additional responsive fixes */
+@media (max-width: 576px) {
+    .contact-form {
+        padding: 1rem;
+    }
+    
+    .project-card {
+        margin-bottom: 1rem;
+    }
+    
+    .footer-content {
+        gap: 1.5rem;
+    }
+}
+
+/* Fix for image placeholders */
+img[src=""] {
+    display: none;
+}
+
+img {
+    min-height: 100px;
+}
+
+/* Fix for form elements on mobile */
+@media (max-width: 480px) {
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px; /* Prevents zoom on mobile */
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
